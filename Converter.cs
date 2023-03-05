@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace _8086
 {
@@ -26,22 +28,43 @@ namespace _8086
 			string colorRed = @"\cf2 ";
 			string colorGreen = @"\cf3 ";
 			string colorBlue = @"\cf4 ";
-
 			bool codeFound = false;
+			string HEX = "0123456789ABCDEF";
 
             string temp = new string(line.ToUpper().Where(x => char.IsLetterOrDigit(x)).ToArray());
-			temp = temp.Insert(0, colorBlue);
             for (int i=0; i<CodesDB.codes.GetLength(0); i++)
 			{
 				if (temp.Contains(CodesDB.codes[i, 1]))
 				{
-                    temp = temp.Replace(CodesDB.codes[i, 1], colorGreen + " " + CodesDB.codes[i, 0] + colorBlack).TrimEnd('H');
+					string tempStart = temp.Substring(0, temp.IndexOf(CodesDB.codes[i, 1]));
+                    string tempEnd = temp.Substring(temp.IndexOf(CodesDB.codes[i, 1]) + CodesDB.codes[i, 1].Length).TrimEnd('H');
+
+					if (!string.IsNullOrWhiteSpace(tempStart))
+					{
+						tempStart = tempStart.Insert(0, colorRed) + ":";
+					}
+
+					if ((tempEnd.Length == Convert.ToInt32(CodesDB.codes[i, 2]) * 2) && tempEnd.All(HEX.Contains))
+					{
+						if (CodesDB.codes[i, 2] == "2")
+						{
+							tempEnd = tempEnd.Remove(0, 2) + tempEnd[0] + tempEnd[1];
+						}
+						tempEnd = tempEnd.Insert(0, colorBlue);
+					}
+					else
+					{
+						tempEnd = tempEnd.Insert(0, colorRed);
+					}
+
+					temp = "   " + tempStart + " " + colorGreen + CodesDB.codes[i, 0] + " " + tempEnd;
+                    //temp = temp.Replace(CodesDB.codes[i, 1], colorGreen + " " + CodesDB.codes[i, 0] + colorBlack).TrimEnd('H');
 					codeFound = true;
 					break;
 				}
 			}
 
-			if (!codeFound) temp = colorRed + line;
+			if (!codeFound) temp = "   " + colorRed + line;
 
             return temp;
 		}

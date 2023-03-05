@@ -104,8 +104,8 @@ namespace _8086
             this.convertToolStripMenuItem.Name = "convertToolStripMenuItem";
             this.convertToolStripMenuItem.ShortcutKeyDisplayString = "";
             this.convertToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
-            this.convertToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
-            this.convertToolStripMenuItem.Text = "Convert";
+            this.convertToolStripMenuItem.Size = new System.Drawing.Size(103, 20);
+            this.convertToolStripMenuItem.Text = "Convert          F5";
             this.convertToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.TopLeft;
             this.convertToolStripMenuItem.Click += new System.EventHandler(this.convertToolStripMenuItem_Click);
             // 
